@@ -5,9 +5,9 @@ This repository contains three of my Django prototypes.
 ## Projects included
 * commerce
 * mail
-* wiki
+* wiki_project
 
-*I would suggest running the mail if you're only looking to checkout one of the above*
+*I would suggest running the ```mail``` if you're only looking to checkout one of the above*
 
 ## Running a project
 1.  Clone this repository into a folder
