@@ -1,0 +1,125 @@
+{% extends "auctions/layout.html" %}
+<!-- TODO: Restyle
+         -->
+{% block body %}
+
+  {% for mess in sMess %}
+    <div class="alert alert-success">
+      {{mess}}
+    </div>
+  {% endfor %}
+
+ {% for mess in eMess %}
+    <div class="alert alert-warning">
+      {{mess}}
+    </div>
+  {% endfor %}
+
+
+  <h1>Listing: {{listing.title}}</h1>
+
+
+  {% if listing in user.watchlist.list.all %}
+    <p class="badge bg-secondary text-light">Watchlist</p>
+  {% endif %}
+  {% if not listing.active %}
+    {% if listing in user.won_listing.all %}
+      <p class="alert alert-success">You won this auction!</p>
+   {% endif %}
+  {% endif %}
+  {% if not listing.active %}
+    <p class="badge bg-secondary text-light">Closed</p>
+  {% endif %}
+  <div>
+     {% if listing.image %}
+       <img class="info-img" src="{{listing.image}}">
+     {% endif %}
+
+     <div class=""> <!-- NOTE: categories -->
+       {% for c in listing.categories.all %}
+         <a href="{% url 'categories' c.name %}"><div class="badge bg-info text-light">
+           {{c.name}}
+         </div></a>
+       {% endfor %}
+     </div>
+
+    <div style="margin-top: 10px;">
+      <h4>Description:</h4>
+      <p style="margin-left: 10px;">{{listing.description}}</p>
+    </div>
+
+    <div class="text-muted ">
+      <p>Created by: {{listing.creator.username}}</p>
+    </div>
+
+
+
+    <div class="bgroup"> <!-- NOTE: button group (active, watchlist) -->
+         {% if listing in user.created_listing.all %}
+          {% if listing.active %}
+             <form class="" action="{% url 'info' listing.id %}" method="post">
+               {% csrf_token %}
+               <input type="hidden" name="active" value="F">
+               <input class="formbutton" type="submit" value="Make Inactive">
+             </form>
+          {% endif %}
+         {% endif %}
+
+         {% if user.is_authenticated %}
+           {% if listing.active %}
+            <form class="" action="{% url 'info' listing.id %}" method="post">
+              {% csrf_token %}
+
+              {% if listing in user.watchlist.list.all %}
+               <input type="hidden" name="watchlist" value="F">
+               <input class="formbutton" type="submit" value="Remove Watchlist">
+              {% else %}
+               <input type="hidden" name="watchlist" value="T">
+               <input class="formbutton" type="submit" value="Add to watchlist">
+              {% endif %}
+          </form>
+          {% endif %}
+         {% endif %}
+       </div>
+  </div>
+
+<hr>
+  {% if listing.active %} <!-- NOTE: Bid -->
+  <div class="bid">
+    <form class="" action="{% url 'info' listing.id %}" method="post">
+      {% csrf_token %}
+      <input class="textbar" type="number" min="{{listing.bid.current_price}}" name="new-bid">
+      {% if user.is_authenticated %}
+      <input class="formbutton" type="submit" value="Place Bid">
+      {% else %}
+      <input class="formbutton" type="submit" value="Place Bid" disabled>
+      {% endif %}
+    </form>
+  </div>
+  <hr>
+  {% endif %}
+
+   <!-- NOTE: Comment input -->
+  {% if listing.active %}
+    <form class="" action="{% url 'info' listing.id %}" method="post">
+      {% csrf_token %}
+      <textarea class="textbar" name="comment" placeholder="Insert your comments here" style="height: 136px"></textarea>
+
+      {% if user.is_authenticated %}
+      <input class="formbutton" type="submit" value="Add comment">
+      {% else %}
+      <input class="formbutton" type="submit" value="Add comment" disabled>
+      {% endif %}
+    </form>
+  {% endif %}
+
+
+  <div style="margin: 20px 20px 10px 20px;">
+    <h4 style="margin: 0 0 10px 0;">Comments:</h4>
+    {% for com in listing.comments.all %}
+      <div class="info-com">
+        &nbsp;&nbsp;&nbsp;&nbsp;{{com.user}}:&nbsp;&nbsp; {{com.user_comment}}
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}

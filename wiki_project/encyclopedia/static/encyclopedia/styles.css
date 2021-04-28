@@ -1,0 +1,50 @@
+body {
+    margin: 0;
+    background-color: white;
+}
+
+code {
+    white-space: pre;
+}
+
+h1 {
+    margin-top: 0px;
+    padding-top: 20px;
+}
+
+textarea {
+    height: 90vh;
+    width: 80%;
+}
+
+.main {
+    padding: 10px;
+}
+
+.search {
+    width: 100%;
+    font-size: 15px;
+    line-height: 15px;
+}
+
+.sidebar {
+    background-color: #f0f0f0;
+    height: 100vh;
+    padding: 20px;
+}
+
+.sidebar h2 {
+    margin-top: 5px;
+}
+
+.errorMessage{
+    width: 70vw; 
+    border-style: none; 
+    border-radius: 5px; 
+    font-family: Arial; 
+    font-size: 20px;
+    text-transform: uppercase; 
+    background-color: rgb(255, 249, 242); 
+    color: rgb(211, 0, 0); 
+    text-align: center;
+}

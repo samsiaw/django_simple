@@ -1,0 +1,53 @@
+{% extends "auctions/layout.html" %}
+<!-- TODO: A list of items watching (limited info displayed). Items should link to their own info-page -->
+{% block body %}
+  <h1>Watchlist</h1>
+  {% ifequal watchlist.list.all|length 0 %}
+  <h4 class="alert alert-info">Items in your watchlist will be displayed here</h4>
+  {% else %}
+  <div class="l-all">
+        {% for l in watchlist.get_active_listings %}
+
+      <a class="l-link" href="{% url 'info' l.id %}">
+      <div class="cat-single">
+        <img class = "cat-img" src="{{l.image}}" alt="">
+        <div class="l-txt">
+        <h4>{{l.title}}
+          {% if l in user.watchlist %}
+            <sup class="sup-watch">Watching
+            </sup>
+            {% endif %}
+        </h4>
+          <p>{{l.bid}}
+          </p>
+        </div>
+      </div>
+      </a>
+      {% endfor %}
+
+      {% if watchlist.get_inactive_listings|length > 0 %}
+      <h4 style="margin: 20px 0 15px 10px;">Closed Auctions
+      </h4>
+
+       {% for l in watchlist.get_inactive_listings %}
+      <a class="l-link" href="{% url 'info' l.id %}">
+        <div class="cat-single">
+          <img class = "cat-img" src="{{l.image}}" alt="">
+          <div class="l-txt">
+            <h4>{{l.title}}
+              {% if l in user.watchlist %}
+              <sup class="sup-watch">Watching
+              </sup>
+              {% endif %}
+            </h4>
+            <p>{{l.bid}}
+            </p>
+          </div>
+        </div>
+      </a>
+      {% endfor %}
+      {% endif %}
+
+  </div>
+  {% endifequal %}
+{% endblock %}

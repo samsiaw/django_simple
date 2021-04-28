@@ -1,0 +1,23 @@
+{% extends 'encyclopedia/layout.html' %}
+
+{% block title %}
+    Create New Wiki
+{% endblock %}
+
+{% block body %}
+    <h1>
+        Form Creation Page
+    </h1>
+    <p class ="errorMessage">
+        {{error_message}}
+    </p>
+    <form action="{% url 'create_new' %}", method = "POST">
+        {% csrf_token %}
+        {{ new_page_form }}
+        <label for = "TA"> Markdown Text: </label>
+        <textarea id = "TA" name="markdown" rows="15" cols="20">{{text_area_value}}</textarea>
+        <br>
+        <input type="submit" value="Submit">
+    </form>
+   
+{% endblock %}

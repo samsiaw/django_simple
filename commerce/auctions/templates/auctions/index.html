@@ -1,0 +1,43 @@
+{% extends "auctions/layout.html" %}
+<!-- TODO: Beautify listings,
+          Display only part of description (Implement after completion of everything in project)-->
+
+{% block body %}
+    {% if sMess %}
+    <div class="alert alert-success" role="alert">
+      {{sMess}}
+    </div>
+    {% endif %}
+    {% if eMess %}
+    <div class="alert alert-warning" role="alert">
+      {{eMess}}
+    </div>
+    {% endif %}
+    <h2>Active Listings</h2>
+
+  <div class="l-all">
+      {% for l in listings %}
+      <a class="l-link" href="{% url 'info' l.id %}">
+      <div class="l-single">
+
+        <img class = "l-img" src="{{l.image}}" alt="">
+
+        <div class="l-txt">
+        <h4>{{l.title}}
+          {% if l in user.watchlist %}
+            <sup class="sup-watch">Watching
+            </sup>
+            {% endif %}
+        </h4>
+          <p>{{l.bid}}
+          </p>
+          <p>{{l.get_shortDescr}}</p>
+        </div>
+      </div>
+      </a>
+      {% endfor %}
+  </div>
+
+
+
+{% endblock %}

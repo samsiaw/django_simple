@@ -1,0 +1,47 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    {% if eMess %}
+    <div class="alert alert-danger">
+      {{eMess}}      
+    </div>
+    {% endif %}
+    <h1>Categories</h1>
+    <form class="" action="{% url 'categories' ' ' %}" method="post">
+      {% csrf_token %}
+      <label for="_">Choose category from the dropdown list below:</label>
+      <br>
+      <input id="_" type="search" name="category" placeholder="Choose category" list="categories">
+
+      <datalist id="categories">
+        <option value='All'>
+        {% for c in categories %}
+          <option value="{{c.name}}">
+        {% endfor %}
+      </datalist>
+    </form>
+    <hr>
+<!-- TODO: Display a list of auctions -->
+
+    <div class="l-all">
+          {% for l in listings %}
+
+        <a class="l-link" href="{% url 'info' l.id %}">
+        <div class="cat-single">
+          <img class = "cat-img" src="{{l.image}}" alt="">
+          <div class="l-txt">
+          <h4>{{l.title}}
+            {% if l in user.watchlist %}
+              <sup class="sup-watch">Watching
+              </sup>
+              {% endif %}
+          </h4>
+            <p>{{l.bid}}
+            </p>
+          </div>
+        </div>
+        </a>
+        {% endfor %}
+    </div>
+
+{% endblock %}

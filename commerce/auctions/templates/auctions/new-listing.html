@@ -1,0 +1,24 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+  <div class="errorMessage">
+    {{errorMessage}}
+  </div>
+  <form class="customform" action="{% url 'new' %}" method="POST">
+    {% csrf_token %}
+
+  <input class="textbar" name = "title" type="text" placeholder="Auction title {Letters,Numbers,_, and - only }" maxlength="64" pattern="[A-Za-z0-9_-]+" required="required" autofocus>
+
+    <input class="textbar" type="number" name="bid" placeholder='Starting Bid' required="required">
+
+    <input class="textbar" type="url" name="image_link" placeholder="Image url (optional)" >
+
+    <div class="text-muted text-center">Insert space-separated characters or words to create multiple categories</div>
+    <input class="textbar" type="text" name="category" placeholder="Auction Category (optional)">
+
+
+    <textarea class="txtbox" name="listing_descr" rows="8" cols="80" placeholder="Auction's description here"></textarea>
+
+    <input class="formbutton" type="submit" value="Submit">
+  </form>
+{% endblock %}
